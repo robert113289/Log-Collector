@@ -14,8 +14,8 @@ public class LogController {
 
     @GetMapping("/logs")
     public LogResponse getLogs(@RequestParam String filename,
-                               @RequestParam Integer lastN,
-                               @RequestParam String keyword) {
+                               @RequestParam(required = false) Integer lastN,
+                               @RequestParam(required = false) String keyword) {
         return logService.getLogs(filename, lastN, keyword);
     }
 }
