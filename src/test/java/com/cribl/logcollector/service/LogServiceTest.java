@@ -42,5 +42,12 @@ public class LogServiceTest extends LogTestBase {
         assertThat(logs).containsExactlyElementsOf(logLines);
     }
 
+    @Test
+    public void whenLastNIsSpecifiedAndNoKeywordIsSpecified_thenReturnLastNLogs() {
+        LogResponse response = logService.getLogs(TEST_LOG, 2, null);
+        List<String> logs = response.getLogs();
+        assertThat(logs).containsExactly("error log line 2", "debug log line");
+    }
+
 
 }

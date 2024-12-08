@@ -27,6 +27,10 @@ public class LogService {
             // Handle exception or log it
         }
 
+        if (lastN != null && logs.size() > lastN) {
+            logs = logs.subList(logs.size() - lastN, logs.size());
+        }
+
         return new LogResponse(logs);
     }
 }
