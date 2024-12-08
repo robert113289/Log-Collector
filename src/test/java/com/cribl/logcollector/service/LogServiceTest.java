@@ -53,6 +53,13 @@ public class LogServiceTest extends LogTestBase {
         assertThat(logs).containsExactly("error log line 2", "error log line 1");
     }
 
+    @Test
+    public void whenTooManyMatches_thenReturnLatestLogsContainingKeyword() {
+        LogResponse response = logService.getLogs(TEST_LOG, 1, "error");
+        List<String> logs = response.getLogs();
+        assertThat(logs).containsExactly("error log line 2");
+    }
+
 
     @Test
     public void whenLastNIsSpecified_thenReturnLastNLogs() {
