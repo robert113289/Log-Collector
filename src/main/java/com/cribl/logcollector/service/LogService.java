@@ -22,7 +22,9 @@ public class LogService {
         List<String> logs = new ArrayList<>();
         String filePath = Paths.get(basePath, filename).toString();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            logs = br.lines().collect(Collectors.toList());
+            logs = br.lines()
+                    .filter(line -> keyword == null || line.contains(keyword))
+                    .collect(Collectors.toList());
         } catch (
                 IOException e) {
             // Handle exception or log it

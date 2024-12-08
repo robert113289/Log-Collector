@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -85,5 +83,36 @@ public class LogControllerE2ETest extends LogTestBase {
                 .statusCode(200)
                 .body("logs", hasSize(2))
                 .body("logs", contains("debug log line", "error log line 2"));
+    }
+
+    @Test
+    public void whenGetLogsWithKeyword_thenReturnLinesContainingKeyword() {
+        given().port(port)
+                .param("filename", TEST_LOG)
+                .param("keyword", "error")
+                .when()
+                .get("/logs")
+                .then()
+                .statusCode(200)
+                .body("logs", hasSize(2))
+                .body("logs", contains("error log line 2", "error log line 1"));
+    }
+
+    @Test
+    public void whenTooManyKeywordMatches_thenReturnNLinesContainingKeyword(TestInfo testInfo) throws IOException {
+        Integer lastN = 5;
+        String fileName = testInfo.getDisplayName() + ".log";
+        createTestFile(fileName, TestData.generateNumberedLines(20));
+        given().port(port)
+                .param("filename", fileName)
+                .param("lastN", lastN)
+                .param("keyword", "1")
+                .when()
+                .get("/logs")
+                .then()
+                .statusCode(200)
+                .body("logs", hasSize(lastN))
+                .body("logs", everyItem(containsString("1")));
+
     }
 }
