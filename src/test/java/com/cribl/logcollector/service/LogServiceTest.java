@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,16 +39,18 @@ public class LogServiceTest extends LogTestBase {
 
     @Test
     public void whenNoKeywordIsSpecified_thenReturnAllLogs() {
+        List<String> reversedLogLines = new ArrayList<>(logLines);
+        Collections.reverse(reversedLogLines);
         LogResponse response = logService.getLogs(TEST_LOG, null, null);
         List<String> logs = response.getLogs();
-        assertThat(logs).containsExactlyElementsOf(logLines);
+        assertThat(logs).containsExactlyElementsOf(reversedLogLines);
     }
 
     @Test
-    public void whenLastNIsSpecifiedAndNoKeywordIsSpecified_thenReturnLastNLogs() {
+    public void whenLastNIsSpecified_thenReturnLastNLogs() {
         LogResponse response = logService.getLogs(TEST_LOG, 2, null);
         List<String> logs = response.getLogs();
-        assertThat(logs).containsExactly("error log line 2", "debug log line");
+        assertThat(logs).containsExactly("debug log line", "error log line 2");
     }
 
 

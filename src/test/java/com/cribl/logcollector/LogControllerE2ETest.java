@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -43,6 +45,8 @@ public class LogControllerE2ETest extends LogTestBase {
 
     @Test
     public void whenGetLogsWithoutKeyword_thenReturnAllLogs() {
+        List<String> reversedLogLines = new ArrayList<>(logLines);
+        Collections.reverse(reversedLogLines);
         given().port(port)
                 .param("filename", TEST_LOG)
                 .when()
@@ -50,17 +54,14 @@ public class LogControllerE2ETest extends LogTestBase {
                 .then()
                 .statusCode(200)
                 .body("logs", not(empty()))
-                .body("logs", containsInRelativeOrder(logLines.toArray()));
+                .body("logs", containsInRelativeOrder(reversedLogLines.toArray()));
 
     }
 
     @Test
     public void whenGetLogsWithoutNLast_thenReturnDefaultNLastLogs(TestInfo testInfo) throws IOException {
         String fileName = testInfo.getDisplayName() + ".log";
-        // Generate a list of 25 log lines
-        List<String> logLines = IntStream.range(0, 25)
-                .mapToObj(i -> "log line " + i)
-                .collect(Collectors.toList());
+        List<String> logLines = TestData.generateNumberedLines(TestData.defaultLastN + 5);
 
         createTestFile(fileName, logLines);
         given().port(port)
@@ -83,6 +84,6 @@ public class LogControllerE2ETest extends LogTestBase {
                 .then()
                 .statusCode(200)
                 .body("logs", hasSize(2))
-                .body("logs", contains("error log line 2", "debug log line"));
+                .body("logs", contains("debug log line", "error log line 2"));
     }
 }

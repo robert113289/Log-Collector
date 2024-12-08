@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class LogService {
             logs = logs.subList(logs.size() - lastN, logs.size());
         }
 
+        Collections.reverse(logs);
         return new LogResponse(logs);
     }
 }
