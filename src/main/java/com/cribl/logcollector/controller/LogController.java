@@ -16,6 +16,10 @@ public class LogController {
     public LogResponse getLogs(@RequestParam String filename,
                                @RequestParam(required = false, defaultValue = "20") Integer lastN,
                                @RequestParam(required = false) String keyword) {
+        // todo: validate file exists
+        // todo: validate fileName is not malicious
+        // todo: validate lastN is positive
+        // todo: validate lastN is not too large
         return logService.getLogs(filename, lastN, keyword);
     }
 }
