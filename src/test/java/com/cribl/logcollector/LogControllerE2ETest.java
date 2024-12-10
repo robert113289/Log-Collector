@@ -115,4 +115,15 @@ public class LogControllerE2ETest extends LogTestBase {
                 .body("logs", everyItem(containsString("1")));
 
     }
+
+    @Test
+    public void whenGetFiles_thenReturnAllLogFiles() {
+        given().port(port)
+                .when()
+                .get("/files")
+                .then()
+                .statusCode(200)
+                .body(not(empty()))
+                .body("$", hasItem(TEST_LOG));
+    }
 }

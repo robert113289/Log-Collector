@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class LogController {
     @Autowired
@@ -21,5 +23,10 @@ public class LogController {
         // todo: validate lastN is positive
         // todo: validate lastN is not too large
         return logService.getLogs(filename, lastN, keyword);
+    }
+
+    @GetMapping("/files")
+    public List<String> getFiles() {
+        return logService.getFiles();
     }
 }

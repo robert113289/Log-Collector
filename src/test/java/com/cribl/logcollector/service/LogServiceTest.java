@@ -68,5 +68,11 @@ public class LogServiceTest extends LogTestBase {
         assertThat(logs).containsExactly("debug log line", "error log line 2");
     }
 
+    @Test
+    public void whenGetFiles_thenReturnAllLogFiles() {
+        List<String> files = logService.getFiles();
+        assertThat(files).containsExactly(TEST_LOG);
+    }
+
 
 }
