@@ -1,5 +1,6 @@
 package com.cribl.logcollector.service;
 
+import com.cribl.logcollector.model.LogFilesResponse;
 import com.cribl.logcollector.model.LogResponse;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,7 @@ public class LogService {
         return new LogResponse(logs);
     }
 
-    public List<String> getFiles() {
+    public LogFilesResponse getFiles() {
         File folder = new File(basePath);
         File[] files = folder.listFiles();
         List<String> fileNames = new ArrayList<>();
@@ -47,7 +48,7 @@ public class LogService {
                 }
             }
         }
-        return fileNames;
+        return new LogFilesResponse(fileNames);
     }
 }
 

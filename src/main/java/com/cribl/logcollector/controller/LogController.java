@@ -1,13 +1,12 @@
 package com.cribl.logcollector.controller;
 
+import com.cribl.logcollector.model.LogFilesResponse;
 import com.cribl.logcollector.model.LogResponse;
 import com.cribl.logcollector.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class LogController {
@@ -26,7 +25,7 @@ public class LogController {
     }
 
     @GetMapping("/files")
-    public List<String> getFiles() {
+    public LogFilesResponse getFiles() {
         return logService.getFiles();
     }
 }

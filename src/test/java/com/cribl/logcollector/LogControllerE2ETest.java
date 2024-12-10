@@ -124,6 +124,6 @@ public class LogControllerE2ETest extends LogTestBase {
                 .then()
                 .statusCode(200)
                 .body(not(empty()))
-                .body("$", hasItem(TEST_LOG));
+                .body("files", hasItem(TEST_LOG));
     }
 }

@@ -70,7 +70,7 @@ public class LogServiceTest extends LogTestBase {
 
     @Test
     public void whenGetFiles_thenReturnAllLogFiles() {
-        List<String> files = logService.getFiles();
+        List<String> files = logService.getFiles().getFiles();
         assertThat(files).containsExactly(TEST_LOG);
     }
 

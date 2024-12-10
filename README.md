@@ -29,7 +29,7 @@ The API consists of two main endpoints:
     - **Response**: A `LogResponse` object containing the filtered log entries.
 
 - **GET /files**: Retrieves a list of available log files.
-    - **Response**: A list of filenames.
+    - **Response**: A `LogFilesResponse` object containing a list of filenames.
 
 ### Testing Strategy
 
