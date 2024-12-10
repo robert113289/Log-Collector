@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Collector</title>
+</head>
+<body>
+<h1>Log Collector</h1>
+<form id="logForm">
+    <label for="filename">Filename:</label>
+    <select id="filename" name="filename" required></select>
+    <br><br>
+    <label for="lastN">Last N entries:</label>
+    <input type="number" id="lastN" name="lastN">
+    <br><br>
+    <label for="keyword">Keyword:</label>
+    <input type="text" id="keyword" name="keyword">
+    <br><br>
+    <button type="submit">Fetch Logs</button>
+</form>
+<pre id="logOutput"></pre>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/files')
+            .then(response => response.json())
+            .then(data => {
+                const filenameSelect = document.getElementById('filename');
+                data.forEach(file => {
+                    const option = document.createElement('option');
+                    option.value = file;
+                    option.textContent = file;
+                    filenameSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching filenames:', error);
+            });
+    });
+
+    document.getElementById('logForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const filename = document.getElementById('filename').value;
+        const lastN = document.getElementById('lastN').value;
+        const keyword = document.getElementById('keyword').value;
+
+        fetch(`/logs?filename=${filename}&lastN=${lastN}&keyword=${keyword}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('logOutput').innerText = data.logs.join('\n');
+            })
+            .catch(error => {
+                console.error('Error fetching logs:', error);
+            });
+    });
+</script>
+</body>
+</html>
