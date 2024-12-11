@@ -79,6 +79,12 @@ terminating early when enough logs are collected.
 5. **Run the Application**:
     - In IntelliJ IDEA, navigate to the `LogCollectorApplication` class.
     - Right-click and select `Run 'LogCollectorApplication'`.
+   - Common Troubleshooting Steps:
+       - If you encounter any issues, try running the application from the terminal using the following command:
+         ```sh
+         ./gradlew bootRun
+         ```
+       - Make sure the var/log folder exists in the root directory. If not, create it manually.
 
 6. **Access the Web Interface**:
     - I've added a simple web interface to interact with the API in order to demo its capabilities, but it is not
