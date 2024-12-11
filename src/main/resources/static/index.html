@@ -46,11 +46,17 @@
         const keyword = document.getElementById('keyword').value;
 
         fetch(`/logs?filename=${filename}&lastN=${lastN}&keyword=${keyword}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('logOutput').innerText = data.logs.join('\n');
             })
             .catch(error => {
+                document.getElementById('logOutput').innerText = `Error: ${error.message}`;
                 console.error('Error fetching logs:', error);
             });
     });
