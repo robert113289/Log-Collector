@@ -81,4 +81,6 @@ terminating early when enough logs are collected.
     - Right-click and select `Run 'LogCollectorApplication'`.
 
 6. **Access the Web Interface**:
-    - Open a web browser and navigate to [http://localhost:8080](http://localhost:8080).
+    - I've added a simple web interface to interact with the API in order to demo its capabilities, but it is not
+      intended for production use.
+     - Open a web browser and navigate to [http://localhost:8080](http://localhost:8080).
